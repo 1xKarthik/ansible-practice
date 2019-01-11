@@ -1,0 +1,64 @@
+---
+
+- hosts: ubuntu
+  become: yes
+  vars:
+    http_port: 80
+    doc_dir: /ansible/
+    doc_root: /var/www/html/ansible/
+    max_clients: 5
+
+  vars_prompt:
+    - name: username
+      prompt: What is your name? What is your Quest? What is your fav colour?
+
+  tasks:
+  - name: Ensure that Apache is installed
+    yum: name=apache2 state=present
+    when: ansible_os_family == "Debian"
+
+  - name: Start Apache Services
+    service: name=apache2 enabled=yes state=started
+
+  - name: Create document root directory
+    debug: msg="Created {{ doc_dir }} directory in {{ doc_root }} folder"
+    register: results
+    
+  - name: Creating document root directory
+    file:
+      path: /var/www/html/ansible
+      state: directory
+
+  - name: Copy Site Files
+    template: src=templates/index.j2 dest={{ doc_root }}/index.html
+
+  - name: Sites files copied
+    debug: msg={{ results }}
+
+  handlers:
+  - name: Restart Apache
+    service: name=httpd state=restarted
+
+- hosts: rservers
+  become: yes
+
+  tasks:
+  - name: Ensure that Apache is installed
+    yum:
+      name: ['httpd','nano']
+      state: present
+    when: ansible_os_family == "RedHat"
+
+  - name: Start Apache Services
+    service: name=httpd enabled=yes state=started
+
+- hosts: dbservers
+  become: yes
+  gather_facts: yes
+
+  tasks:
+  - name: Ensure MySQL is installed
+    yum: name=mysql-server state=present
+    when: ansible_os_family == "Debian"
+  - name: Start MySQL
+    service: name=mysql state=started

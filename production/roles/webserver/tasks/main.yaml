@@ -1,0 +1,15 @@
+---
+
+- name: Ensure Apache is installed
+  yum: name=httpd state=present
+
+- name: Start Apache
+  service: name=httpd state=started enabled=yes
+
+- name: Creating document root directory
+  file:
+      path: /var/www/html/example/public_html/
+      state: directory
+
+- name: Copy site files
+  template: src=index.j2 dest={{ doc_root }}/index.html

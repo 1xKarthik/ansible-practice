@@ -1,0 +1,6 @@
+---
+http_port: 80
+doc_dir: /example/
+doc_root: /var/www/html/example/public_html/
+max_clients: 5
+username: "Mr Sophistication"

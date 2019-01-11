@@ -1,0 +1,26 @@
+
+web_cent ansible_host=192.168.33.20
+db_ubuntu ansible_ssh_host=192.168.33.30
+ubuntu ansible_ssh_host=192.168.33.40 ansible_user=vagrant 
+
+[uservers]
+ubuntu
+db_ubuntu
+
+[rservers]
+web_cent
+
+[dbservers]
+db_ubuntu
+
+[webservers]
+ubuntu
+web_cent
+
+[datacenter:children]
+uservers
+rservers
+dbservers
+
+[datacenter:vars]
+ansible_user=vagrant

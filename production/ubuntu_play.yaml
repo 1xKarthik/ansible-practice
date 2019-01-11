@@ -1,0 +1,12 @@
+---
+
+- hosts: ubuntu
+  become: yes
+  gather_facts: no
+
+  tasks:
+  - name: Ensure that Apache is installed
+    yum: name=apache2 state=present
+
+  - name: Start Apache Services
+    service: name=apache2 enabled=yes state=started

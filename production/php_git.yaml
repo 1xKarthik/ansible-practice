@@ -1,0 +1,6 @@
+---
+- hosts: webservers
+  become: yes
+  roles:
+  - geerlingguy.git
+  - geerlingguy.php

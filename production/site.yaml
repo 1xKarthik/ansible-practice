@@ -1,0 +1,7 @@
+---
+- hosts: rservers:dbservers
+  become: yes
+  gather_facts: no
+
+- import_playbook: webservers_play.yaml
+- import_playbook: dbservers_play.yaml
