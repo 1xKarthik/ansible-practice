@@ -2,7 +2,14 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-
+  
+  config.vm.provider "hyperv" do |v|
+    h.enable_virtualization_extensions = true
+    h.differencing_disk = true
+    v.memory = 256
+    v.cpus = 1
+  end
+  
   config.vm.define "acs" do |acs|
     acs.vm.box = "ubuntu/trusty64"
     acs.vm.hostname = "acs"
