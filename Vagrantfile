@@ -4,8 +4,8 @@
 Vagrant.configure("2") do |config|
   
   config.vm.provider "hyperv" do |v|
-    h.enable_virtualization_extensions = true
-    h.differencing_disk = true
+    v.enable_virtualization_extensions = true
+    v.linked_clone = true
     v.memory = 256
     v.cpus = 1
   end
